@@ -1,0 +1,48 @@
+#define zolty 7
+#define czerwony 5
+#define zielony 8
+
+float odczytanawartosc = 0;
+float odczytanawartosc2 = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(zolty, OUTPUT);
+  pinMode(zielony, OUTPUT);
+  digitalWrite(czerwony, LOW);
+  digitalWrite(zielony, LOW);
+}
+
+void loop() {
+  odczytanawartosc = analogRead(A5);
+  odczytanawartosc2 = analogRead(A4);
+  
+  if (odczytanawartosc < 100) {
+    digitalWrite(czerwony, HIGH);
+    Serial.println("Lewa strona świeci !");
+    Serial.println(odczytanawartosc);
+    Serial.println("===========================");
+    delay(600);
+  } 
+  else if (odczytanawartosc > 180) {
+    digitalWrite(czerwony, LOW);
+    delay(200);
+  }
+  
+  if (odczytanawartosc2 < 100) {
+    digitalWrite(zielony, HIGH);
+    Serial.println("Prawa strona świeci !");
+    Serial.println(odczytanawartosc2);
+    Serial.println("============================");
+    delay(600);
+  } 
+  else if (odczytanawartosc2 > 100) {
+    digitalWrite(czerwony, LOW);
+    delay(200);
+  }
+   else if (odczytanawartosc2 > 100) {
+    digitalWrite(zielony, LOW);
+    delay(200);
+  }
+  delay(50);
+}

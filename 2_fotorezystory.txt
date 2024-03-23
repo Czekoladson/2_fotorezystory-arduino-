@@ -1,48 +1,60 @@
-#define zolty 7
-#define czerwony 5
-#define zielony 8
+#define niebieski 7
+#define zolty 8 
+#define zielony 9
 
-float odczytanawartosc = 0;
-float odczytanawartosc2 = 0;
+float fotorezystor_lewy = 0;
+float fotorezystor_prawy = 0;
 
 void setup() {
   Serial.begin(9600);
   pinMode(zolty, OUTPUT);
   pinMode(zielony, OUTPUT);
-  digitalWrite(czerwony, LOW);
+  pinMode(niebieski, OUTPUT);
   digitalWrite(zielony, LOW);
+  digitalWrite(niebieski, LOW);
 }
+  void loop() {
+    fotorezystor_lewy = analogRead(A5);
+    fotorezystor_prawy = analogRead(A4);
 
-void loop() {
-  odczytanawartosc = analogRead(A5);
-  odczytanawartosc2 = analogRead(A4);
+      if (fotorezystor_lewy < 150 && fotorezystor_prawy < 150) {
+        digitalWrite(niebieski, HIGH);
+        digitalWrite(zielony, HIGH);
+        digitalWrite(zolty, HIGH);
+        Serial.println("Lewa i Prawa strona świeci !");
+        Serial.println(fotorezystor_lewy);
+        Serial.println(fotorezystor_prawy);
+        Serial.println("===========================");
+        delay(600); 
+      }
+        else if (fotorezystor_lewy < 150) {
+          digitalWrite(niebieski, HIGH);
+          digitalWrite(zolty, LOW);
+          digitalWrite(zielony, LOW);
+          Serial.println("Lewa strona świeci !");
+          Serial.println(fotorezystor_lewy);
+          Serial.println("===========================");
+          delay(600);
+        } 
+          else if (fotorezystor_lewy > 300) {
+          digitalWrite(niebieski, LOW);
+          digitalWrite(zolty, LOW);
+          digitalWrite(zielony, LOW);
+          }
   
-  if (odczytanawartosc < 100) {
-    digitalWrite(czerwony, HIGH);
-    Serial.println("Lewa strona świeci !");
-    Serial.println(odczytanawartosc);
-    Serial.println("===========================");
-    delay(600);
-  } 
-  else if (odczytanawartosc > 180) {
-    digitalWrite(czerwony, LOW);
-    delay(200);
+            else if (fotorezystor_prawy < 150) {
+              digitalWrite(niebieski, LOW);
+              digitalWrite(zolty, LOW);
+              digitalWrite(zielony, HIGH);
+              Serial.println("Prawa strona świeci !");
+              Serial.println(fotorezystor_prawy);
+              Serial.println("============================");
+              delay(600);
+            } 
+              else if (fotorezystor_prawy > 300) {
+                digitalWrite(niebieski, LOW);
+                digitalWrite(zolty, LOW);
+                digitalWrite(zielony, LOW);
+              } 
+           
   }
-  
-  if (odczytanawartosc2 < 100) {
-    digitalWrite(zielony, HIGH);
-    Serial.println("Prawa strona świeci !");
-    Serial.println(odczytanawartosc2);
-    Serial.println("============================");
-    delay(600);
-  } 
-  else if (odczytanawartosc2 > 100) {
-    digitalWrite(czerwony, LOW);
-    delay(200);
-  }
-   else if (odczytanawartosc2 > 100) {
-    digitalWrite(zielony, LOW);
-    delay(200);
-  }
-  delay(50);
-}
